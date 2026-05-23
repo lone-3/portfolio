@@ -1,0 +1,939 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Albara Alsayyed | Penetration Tester & Cybersecurity Professional</title>
+  <meta name="description" content="Cybersecurity portfolio for Albara Alsayyed: Penetration Testing, Web/AppSec, Active Directory, Red Teaming, SOC Operations, Security Automation, and CTF leadership." />
+
+  <style>
+    :root {
+      --bg: #000000;
+      --card: #0d0d0f;
+      --text: #f5f5f5;
+      --muted: #a9a9ad;
+      --line: rgba(255,255,255,0.10);
+      --red: #ff1e3c;
+      --red-dark: #8b0014;
+      --white: #ffffff;
+      --shadow: 0 34px 90px rgba(0,0,0,0.82);
+      --glow: 0 0 24px rgba(255,30,60,.24), 0 0 80px rgba(193,18,31,.16);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 14% 10%, rgba(193,18,31,0.20), transparent 24%),
+        radial-gradient(circle at 86% 16%, rgba(91,0,13,0.28), transparent 32%),
+        radial-gradient(circle at 48% 88%, rgba(255,30,60,0.08), transparent 40%),
+        linear-gradient(135deg, #000000 0%, #050505 36%, #100003 63%, #000000 100%);
+      color: var(--text);
+      line-height: 1.72;
+      overflow-x: hidden;
+      perspective: 1200px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(255,18,63,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,18,63,.055) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.86), transparent 84%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1180px, 92%); margin: auto; }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      z-index: 999;
+      background: linear-gradient(90deg, transparent, var(--red), var(--white));
+      box-shadow: 0 0 18px rgba(255,30,60,.65);
+    }
+
+    .background-effects {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(to bottom, rgba(255,255,255,.03) 0, rgba(255,255,255,.03) 1px, transparent 1px, transparent 7px);
+      opacity: .16;
+      mix-blend-mode: screen;
+    }
+
+    .orb {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      filter: blur(14px);
+      opacity: .36;
+      animation: floatOrb 9s ease-in-out infinite alternate;
+    }
+
+    .orb.one { left: -120px; top: 70px; background: radial-gradient(circle, rgba(255,18,63,.85), transparent 64%); }
+    .orb.two { right: -150px; top: 210px; background: radial-gradient(circle, rgba(126,0,20,.92), transparent 65%); animation-delay: -2s; }
+    .orb.three { left: 42%; bottom: -170px; background: radial-gradient(circle, rgba(255,52,82,.35), transparent 68%); animation-delay: -4s; }
+
+    @keyframes floatOrb {
+      from { transform: translate3d(0,0,0) scale(1); }
+      to { transform: translate3d(24px,-32px,0) scale(1.08); }
+    }
+
+    .matrix-rain {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(90deg, transparent 97%, rgba(255,18,63,.20) 100%),
+        linear-gradient(180deg, transparent 96%, rgba(255,18,63,.14) 100%);
+      background-size: 95px 95px;
+      opacity: .38;
+      transform: perspective(900px) rotateX(63deg) translateY(-24%);
+      transform-origin: top;
+      filter: drop-shadow(0 0 8px rgba(255,18,63,.22));
+    }
+
+    .background-effects::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 0%, transparent 44%, rgba(0,0,0,.78) 100%);
+    }
+
+    .floating-shape {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      border: 1px solid rgba(255,18,63,.30);
+      background: linear-gradient(145deg, rgba(255,18,63,.12), rgba(0,0,0,.34));
+      box-shadow: 20px 20px 0 rgba(91,0,13,.25), 0 0 40px rgba(255,18,63,.16), inset -18px -18px 32px rgba(0,0,0,.32);
+      transform-style: preserve-3d;
+      animation: floatCube 8s ease-in-out infinite alternate;
+      opacity: .58;
+    }
+
+    .floating-shape::before,
+    .floating-shape::after {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: inherit;
+      transform: translateZ(24px);
+    }
+
+    .floating-shape::after {
+      inset: 28px;
+      transform: translateZ(44px);
+      background: rgba(255,18,63,.07);
+    }
+
+    .shape-a { left: 7%; top: 24%; border-radius: 24px; transform: rotateX(60deg) rotateZ(42deg); }
+    .shape-b { right: 8%; top: 54%; width: 82px; height: 82px; border-radius: 20px; animation-delay: -2.5s; transform: rotateX(58deg) rotateZ(-38deg); }
+    .shape-c { left: 58%; top: 18%; width: 64px; height: 64px; border-radius: 18px; animation-delay: -5s; transform: rotateX(62deg) rotateZ(18deg); }
+
+    @keyframes floatCube {
+      from { translate: 0 0; rotate: 0deg; }
+      to { translate: 22px -34px; rotate: 7deg; }
+    }
+
+    .depth-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255,18,63,.22);
+      box-shadow: 0 0 38px rgba(255,18,63,.12), inset 0 0 38px rgba(255,18,63,.08);
+      transform: rotateX(72deg);
+      animation: spinRing 16s linear infinite;
+      opacity: .42;
+    }
+
+    .ring-a { width: 460px; height: 460px; left: -120px; bottom: 4%; }
+    .ring-b { width: 320px; height: 320px; right: 8%; top: 10%; animation-direction: reverse; }
+    @keyframes spinRing { to { transform: rotateX(72deg) rotateZ(360deg); } }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      background: rgba(0,0,0,0.76);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 17px 0;
+    }
+
+    .logo {
+      font-family: Consolas, "Courier New", monospace;
+      font-weight: 800;
+      letter-spacing: .4px;
+      color: var(--red);
+    }
+
+    .logo span { color: var(--text); opacity: .9; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      font-size: 13px;
+      color: var(--muted);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a { transition: .2s ease; position: relative; }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 2px;
+      background: var(--red);
+      box-shadow: 0 0 14px rgba(255,30,60,.55);
+      transition: width .22s ease;
+    }
+    .nav-links a:hover { color: var(--red); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      place-items: center;
+      padding: 78px 0 60px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.18fr .82fr;
+      gap: 28px;
+      align-items: stretch;
+      transform-style: preserve-3d;
+      perspective: 1600px;
+    }
+
+    .panel, .card, .contact-box {
+      background:
+        linear-gradient(145deg, rgba(18,18,20,.94), rgba(0,0,0,.88)),
+        radial-gradient(circle at 20% 0%, rgba(255,30,60,.12), transparent 40%);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 28px;
+      box-shadow: var(--shadow), var(--glow), inset 0 1px 0 rgba(255,255,255,.08), inset 0 -45px 80px rgba(0,0,0,.34);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transform: translateZ(0);
+      transition: transform .32s ease, border-color .32s ease, box-shadow .32s ease;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .panel::before, .card::before, .contact-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,.07), transparent 42%);
+      transform: translateX(-120%);
+      transition: transform .8s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .panel:hover::before, .card:hover::before, .contact-box:hover::before { transform: translateX(120%); }
+    .panel:hover, .card:hover, .contact-box:hover { transform: translateY(-10px) rotateX(3deg) rotateY(-3deg) scale(1.01); border-color: rgba(255,18,63,.48); box-shadow: 0 42px 110px rgba(0,0,0,.86), 0 0 42px rgba(255,18,63,.20); }
+
+    .terminal-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 99px; background: var(--red-dark); }
+    .dot:nth-child(2) { background: #ffffff; }
+    .dot:nth-child(3) { background: var(--red); }
+
+    .hero-body { padding: 38px; position: relative; z-index: 2; transform-style: preserve-3d; }
+    .hero-body > * { transform: translateZ(34px); }
+
+    .hero-body::after {
+      content: "</>";
+      position: absolute;
+      right: 28px;
+      bottom: 18px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 118px;
+      font-weight: 900;
+      color: rgba(255,255,255,.035);
+      z-index: -1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: Consolas, "Courier New", monospace;
+      color: var(--red);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      box-shadow: 0 0 18px rgba(255,18,63,.95);
+    }
+
+    .terminal-command {
+      color: #ffffff;
+      font-family: Consolas, "Courier New", monospace;
+      display: inline-block;
+      border-right: 2px solid var(--red);
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 2.4s steps(34,end) forwards, blink .72s step-end infinite;
+      margin-bottom: 18px;
+      opacity: .92;
+    }
+
+    @keyframes typing { to { width: 34ch; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: .98;
+      letter-spacing: -3.5px;
+      margin-bottom: 20px;
+    }
+
+    .accent { color: var(--red); text-shadow: 0 0 24px rgba(255,18,63,.44), 0 0 62px rgba(91,0,13,.45); }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 780px;
+      font-size: 18px;
+      margin-bottom: 28px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+    }
+
+    .hero-stat {
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.035);
+      box-shadow: inset 0 0 24px rgba(255,30,60,.045);
+    }
+
+    .hero-stat strong {
+      display: block;
+      color: var(--red);
+      font-size: 24px;
+      line-height: 1;
+      text-shadow: 0 0 18px rgba(255,30,60,.34);
+    }
+
+    .hero-stat span { display: block; color: var(--muted); font-size: 12px; margin-top: 8px; }
+
+    .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      transition: .22s ease;
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .btn.primary { border-color: rgba(255,18,63,.58); color: var(--red); background: rgba(255,18,63,.08); }
+    .btn:hover { transform: translateY(-4px) translateZ(14px); border-color: rgba(255,18,63,.70); box-shadow: 0 18px 36px rgba(255,18,63,.14); }
+
+    .profile-card { padding: 28px; height: 100%; transform-style: preserve-3d; }
+    .profile-card > * { transform: translateZ(28px); position: relative; z-index: 2; }
+    .profile-card h3 { color: var(--red); margin-bottom: 18px; font-size: 22px; }
+
+    .profile-visual {
+      height: 190px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(circle at 24% 34%, rgba(255,255,255,.14), transparent 10%),
+        radial-gradient(circle at 62% 47%, rgba(255,30,60,.34), transparent 23%),
+        radial-gradient(circle at 80% 70%, rgba(91,0,13,.56), transparent 30%),
+        linear-gradient(135deg, rgba(255,30,60,.12), rgba(0,0,0,.42));
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 0 70px rgba(255,30,60,.10), 0 22px 46px rgba(0,0,0,.50);
+    }
+
+    .profile-visual::before {
+      content: "/dev/null";
+      position: absolute;
+      top: 26px;
+      left: 28px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 35px;
+      color: rgba(255,255,255,.88);
+      letter-spacing: 2px;
+      text-shadow: 0 0 18px rgba(255,255,255,.28);
+    }
+
+    .profile-visual::after {
+      content: "";
+      width: 116px;
+      height: 116px;
+      border-radius: 26px;
+      background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,18,63,.17) 45%, rgba(0,0,0,.22));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 22px 22px 0 rgba(91,0,13,.46), 0 0 55px rgba(255,18,63,.38), inset -18px -18px 34px rgba(0,0,0,.24);
+      transform: rotateX(58deg) rotateZ(45deg);
+      animation: cubePulse 3.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes cubePulse {
+      from { transform: rotateX(58deg) rotateZ(45deg) translateY(0) scale(1); }
+      to { transform: rotateX(58deg) rotateZ(45deg) translateY(-10px) scale(1.06); }
+    }
+
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .metric strong { color: var(--text); text-align: right; }
+
+    .visitor-counter, .availability {
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,30,60,.30);
+      background: rgba(255,30,60,.08);
+    }
+
+    .visitor-counter { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+    .visitor-counter span { color: var(--muted); font-size: 13px; }
+    .visitor-counter strong { color: var(--red); font-size: 24px; text-shadow: 0 0 18px rgba(255,30,60,.42); }
+    .availability { color: var(--muted); font-size: 13px; }
+    .availability strong { color: var(--red); }
+
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .badge, .tag {
+      border: 1px solid rgba(255,18,63,.28);
+      background: rgba(255,18,63,.08);
+      color: #ff4d63;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: inset 0 0 18px rgba(255,18,63,.06);
+    }
+    .badge { padding: 7px 10px; }
+    .tag { padding: 5px 9px; }
+
+    section { padding: 78px 0; }
+    .reveal { opacity: 1; transform: translateY(0); transition: opacity .7s ease, transform .7s ease; }
+
+    .section-kicker {
+      display: inline-flex;
+      margin-bottom: 12px;
+      color: var(--red);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .section-title { font-size: clamp(28px, 4vw, 42px); line-height: 1.1; margin-bottom: 12px; letter-spacing: -1.4px; }
+    .section-title::before { content: "# "; color: var(--red); font-family: Consolas, "Courier New", monospace; }
+    .section-desc { color: var(--muted); max-width: 900px; margin-bottom: 32px; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid.two { grid-template-columns: repeat(2, 1fr); }
+    .grid.four { grid-template-columns: repeat(4, 1fr); }
+
+    .card {
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.055);
+    }
+
+    .card > * { position: relative; z-index: 2; transform: translateZ(22px); }
+    .card h3 { margin-bottom: 8px; font-size: 20px; color: #ffffff; }
+    .card p, .card li { color: var(--muted); font-size: 15px; }
+    .card ul { padding-left: 18px; margin-top: 12px; }
+
+    .date { color: var(--red); font-family: Consolas, "Courier New", monospace; font-size: 13px; margin-bottom: 10px; }
+    .place { color: #ff4d63; font-size: 13px; margin-bottom: 13px; font-weight: 700; }
+    .timeline { display: grid; gap: 18px; }
+    .timeline .card { border-left: 3px solid rgba(255,30,60,.70); }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+
+    .skill-group { display: grid; gap: 13px; }
+    .skill-title { color: var(--red); font-weight: 800; }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 9px; }
+    .skill-list span {
+      padding: 9px 11px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+      transition: .2s ease;
+    }
+    .skill-list span:hover { color: #ffffff; border-color: rgba(255,30,60,.45); background: rgba(255,30,60,.08); transform: translateY(-3px); }
+
+    .achievement {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 17px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.025);
+      border-radius: 16px;
+      transform-style: preserve-3d;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .achievement:hover { transform: translateY(-10px) rotateX(5deg) rotateY(-4deg); border-color: rgba(255,18,63,.45); box-shadow: 0 30px 75px rgba(0,0,0,.62), 0 0 32px rgba(255,18,63,.14); }
+    .achievement span { color: var(--red); font-family: Consolas, "Courier New", monospace; font-weight: 900; }
+    .achievement p { color: var(--muted); }
+
+    .contact-box { text-align: center; padding: 46px 26px; }
+    .contact-box > * { position: relative; z-index: 2; transform: translateZ(24px); }
+    .contact-box h2 { font-size: clamp(28px, 4vw, 42px); margin-bottom: 10px; }
+    .contact-box p { color: var(--muted); margin-bottom: 24px; }
+
+    footer { padding: 34px 0; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 14px; }
+
+    @media (max-width: 920px) {
+      .hero-grid, .grid, .grid.two, .grid.four { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero-body { padding: 26px; }
+      h1 { letter-spacing: -2px; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .floating-shape, .depth-ring { opacity: .25; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="scroll-progress"></div>
+  <div class="background-effects" aria-hidden="true">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+    <div class="matrix-rain"></div>
+    <div class="floating-shape shape-a"></div>
+    <div class="floating-shape shape-b"></div>
+    <div class="floating-shape shape-c"></div>
+    <div class="depth-ring ring-a"></div>
+    <div class="depth-ring ring-b"></div>
+    <div class="scanlines"></div>
+  </div>
+
+  <nav>
+    <div class="container nav-inner">
+      <a class="logo" href="#home">Albara<span>@cybersecurity</span></a>
+      <div class="nav-links">
+        <a href="#about">WHOAMI</a>
+        <a href="#experience">Experience</a>
+        <a href="#writeups">Writeups</a>
+        <a href="#projects">Projects</a>
+        <a href="#roles">Target Roles</a>
+        <a href="#certifications">Certifications</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="home" class="hero">
+    <div class="container hero-grid">
+      <div class="panel">
+        <div class="terminal-top"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="hero-body">
+          <div class="eyebrow">root@portfolio:~$ whoami</div>
+          <div class="terminal-command">cat ./albara_profile.json</div>
+          <h1>Albara <span class="accent">Alsayyed</span></h1>
+          <p class="subtitle">
+            Penetration Tester and Cybersecurity professional with hands-on experience across Web/AppSec, API security,
+            Active Directory, network security, SOC monitoring, endpoint support, and incident response. I focus on validating
+            real attack paths, writing remediation-ready reports, and building practical security labs.
+          </p>
+          <div class="hero-stats">
+            <div class="hero-stat"><strong>25+</strong><span>Security findings</span></div>
+            <div class="hero-stat"><strong>20+</strong><span>Reports delivered</span></div>
+            <div class="hero-stat"><strong>Top 1%</strong><span>TryHackMe</span></div>
+            <div class="hero-stat"><strong>50+</strong><span>QnQSec members</span></div>
+          </div>
+          <div class="buttons">
+            <a class="btn primary" href="#experience">View Experience</a>
+            <a class="btn" href="#writeups">Writeups</a>
+            <a class="btn" href="#projects">Projects</a>
+            <a class="btn" href="#roles">Target Roles</a>
+            <a class="btn" href="https://github.com/YOUR_USERNAME" target="_blank">GitHub</a>
+            <a class="btn" href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank">LinkedIn</a>
+            <a class="btn" href="mailto:baraaalsayyed99@gmail.com">Email</a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel profile-card">
+        <div class="profile-visual"></div>
+        <h3>Profile Snapshot</h3>
+        <div class="metric"><span>Role</span><strong>Penetration Tester</strong></div>
+        <div class="metric"><span>Location</span><strong>Dubai, UAE</strong></div>
+        <div class="metric"><span>Focus</span><strong>Web / AD / Red Team / SOC</strong></div>
+        <div class="metric"><span>TryHackMe</span><strong>Top 1% Global</strong></div>
+        <div class="metric"><span>CTF Team</span><strong>QnQSec - Top 100 CTFtime</strong></div>
+        <div class="metric"><span>Email</span><strong>baraaalsayyed99@gmail.com</strong></div>
+        <div class="visitor-counter"><span>Profile Visits</span><strong id="visit-count">0001</strong></div>
+        <div class="availability"><strong>Status:</strong> Open to cybersecurity roles, projects, CTF collaboration, and security research.</div>
+        <div class="badge-row">
+          <span class="badge">eWPTX</span><span class="badge">eCPPT</span><span class="badge">CRTA</span><span class="badge">CRTOM</span><span class="badge">HTB CPTS</span><span class="badge">ISC2 CC</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <section id="about" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Identity</span>
+      <h2 class="section-title">WHOAMI</h2>
+      <p class="section-desc">Cybersecurity and IT support professional skilled in identifying vulnerabilities, troubleshooting technical issues, managing access control, validating exploitation paths, and communicating risk through clear technical and executive reporting.</p>
+      <div class="grid three">
+        <div class="card"><h3>Offensive Security</h3><p>Penetration testing, red team operations, adversarial simulation, post-exploitation, vulnerability assessment, and PoC development.</p></div>
+        <div class="card"><h3>Web & API Security</h3><p>OWASP Top 10, SQLi, XSS, IDOR, SSRF, authentication bypass, business logic flaws, API testing, and file upload/RCE testing.</p></div>
+        <div class="card"><h3>SOC & Infrastructure</h3><p>Alert triage, incident response, Splunk L1/L2, endpoint support, Microsoft 365, Active Directory, patching, and network troubleshooting.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Professional Track</span>
+      <h2 class="section-title">Experience</h2>
+      <p class="section-desc">Professional roles, cybersecurity leadership, technical support, and security training experience.</p>
+      <div class="timeline">
+        <div class="card">
+          <div class="date">Jun 2025 - Dec 2025</div>
+          <h3>Information Security Officer & Penetration Tester</h3>
+          <div class="place">National Cyber Security Center · Jordan</div>
+          <ul>
+            <li>Executed adversarial red team simulations across 20+ production and high-security environments.</li>
+            <li>Discovered and exploited vulnerabilities in 25+ web applications and network systems.</li>
+            <li>Completed a full network penetration testing assessment 3 days ahead of deadline while maintaining report quality.</li>
+            <li>Developed 10+ custom exploit scripts and attack tooling to speed up PoC validation and remediation workflows.</li>
+            <li>Delivered 20+ structured security reports under strict confidentiality constraints with zero client disputes.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="date">Jan 2023 - May 2023</div>
+          <h3>Penetration Tester Intern</h3>
+          <div class="place">HFT · Türkiye</div>
+          <ul>
+            <li>Supported network and web application penetration testing activities to identify security weaknesses.</li>
+            <li>Performed vulnerability assessments on real environments to evaluate security posture.</li>
+            <li>Validated common web application vulnerabilities aligned with the OWASP Top 10.</li>
+            <li>Assisted senior engineers with documenting findings and preparing professional reports.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="date">Nov 2023 - Mar 2026</div>
+          <h3>Information Technology Specialist</h3>
+          <div class="place">Center for Creative Leadership · Dubai</div>
+          <ul>
+            <li>Provided L2 technical support for 235+ users, resolving 20-40+ incidents weekly across systems and networks.</li>
+            <li>Resolved an Active Directory misconfiguration causing account lockouts and conflicting group policies.</li>
+            <li>Managed user accounts, permissions, and access control through Active Directory with zero unauthorized access incidents.</li>
+            <li>Reduced average incident resolution time by 30-40% through structured troubleshooting and documentation.</li>
+            <li>Applied hardening and patch management practices across 100+ endpoints.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="date">Dec 2024 - Present</div>
+          <h3>Cybersecurity Manager</h3>
+          <div class="place">QnQSec · Jordan</div>
+          <ul>
+            <li>Built QnQSec from zero into a 50+ member internationally recognized offensive security team.</li>
+            <li>Helped lead the team to a Top 100 global ranking on CTFtime.</li>
+            <li>Designed original CTF challenges covering Active Directory exploitation, web vulnerabilities, and OSINT.</li>
+            <li>Organized and executed QnQSec CTF 2025 end-to-end, including infrastructure, scoring, challenges, and live operations.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="date">Jan 2025 - Present</div>
+          <h3>Cybersecurity Training Program</h3>
+          <div class="place">Eng. Ahmad H Al-Mashaikh · Dubai</div>
+          <ul>
+            <li>Performed SOC monitoring, alert triage, and incident response activities using Splunk L1 & L2.</li>
+            <li>Conducted vulnerability assessments and penetration testing in simulated environments.</li>
+            <li>Applied NIST CSF, ISO 27001, and MITRE ATT&CK to real-world security scenarios.</li>
+            <li>Worked with Linux security, system hardening, Fortinet FortiGate, and Palo Alto firewalls.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="date">Jun 2024 - Present</div>
+          <h3>Cybersecurity Educator</h3>
+          <div class="place">Cyber-eto · Jordan</div>
+          <ul>
+            <li>Organized ethical hacking and offensive security workshops for university students.</li>
+            <li>Authored CTF challenges in AD exploitation, web vulnerabilities, and OSINT.</li>
+            <li>Organized Cyber-eto CTF 2025 at Philadelphia University with $10,000+ in prizes.</li>
+            <li>Contributed to Black Hat MEA 2024 competition performance among 250 global teams.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="writeups" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Knowledge Base</span>
+      <h2 class="section-title">Writeups & Research</h2>
+      <p class="section-desc">A dedicated space for CTF writeups, penetration testing notes, SOC investigations, malware/phishing analysis, and practical security research. Publish only legal lab, CTF, and sanitized research content.</p>
+      <div class="grid three">
+        <div class="card">
+          <div class="date">CTF Writeups</div>
+          <h3>Hack The Box / TryHackMe</h3>
+          <p>Step-by-step writeups covering enumeration, exploitation, privilege escalation, and lessons learned from retired or allowed machines.</p>
+          <div class="tags"><span class="tag">Enumeration</span><span class="tag">Exploitation</span><span class="tag">Privilege Escalation</span></div>
+          <div class="buttons" style="margin-top:18px;"><a class="btn" href="https://github.com/YOUR_USERNAME/ctf-writeups" target="_blank">Open Repository</a></div>
+        </div>
+        <div class="card">
+          <div class="date">Security Notes</div>
+          <h3>Web & API Security Notes</h3>
+          <p>Personal notes for OWASP Top 10, API testing, Burp Suite workflow, payload examples, reporting tips, and remediation guidance.</p>
+          <div class="tags"><span class="tag">OWASP</span><span class="tag">API</span><span class="tag">Burp Suite</span></div>
+          <div class="buttons" style="margin-top:18px;"><a class="btn" href="https://github.com/YOUR_USERNAME/web-security-notes" target="_blank">Open Repository</a></div>
+        </div>
+        <div class="card">
+          <div class="date">Blue Team</div>
+          <h3>SOC Case Studies</h3>
+          <p>Writeups for alert triage, log analysis, phishing investigation, MITRE ATT&CK mapping, and incident response scenarios.</p>
+          <div class="tags"><span class="tag">Splunk</span><span class="tag">IR</span><span class="tag">MITRE ATT&CK</span></div>
+          <div class="buttons" style="margin-top:18px;"><a class="btn" href="https://github.com/YOUR_USERNAME/soc-case-studies" target="_blank">Open Repository</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Builds & Labs</span>
+      <h2 class="section-title">Projects</h2>
+      <p class="section-desc">Practical projects that show offensive security, defensive security, scripting, infrastructure, automation, and reporting skills.</p>
+      <div class="grid three">
+        <div class="card">
+          <h3>Active Directory Attack Lab</h3>
+          <p>A local lab for AD enumeration, Kerberoasting, NTLM abuse, lateral movement, privilege escalation, and detection notes.</p>
+          <div class="tags"><span class="tag">Active Directory</span><span class="tag">Kerberos</span><span class="tag">Red Team</span></div>
+          <div class="buttons" style="margin-top:18px;"><a class="btn" href="https://github.com/YOUR_USERNAME/ad-attack-lab" target="_blank">View Project</a></div>
+        </div>
+        <div class="card">
+          <h3>Security Automation Scripts</h3>
+          <p>Python, Bash, and PowerShell automation scripts for reconnaissance, log parsing, reporting, IOC extraction, endpoint checks, and security workflow improvement.</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Bash</span><span class="tag">PowerShell</span><span class="tag">Automation</span></div>
+          <div class="buttons" style="margin-top:18px;"><a class="btn" href="https://github.com/YOUR_USERNAME/security-automation-scripts" target="_blank">View Project</a></div>
+        </div>
+        <div class="card">
+          <h3>CTF Challenge Development</h3>
+          <p>Original challenge concepts for web exploitation, Active Directory, OSINT, and infrastructure built for live CTF events.</p>
+          <div class="tags"><span class="tag">CTF</span><span class="tag">Web</span><span class="tag">OSINT</span></div>
+          <div class="buttons" style="margin-top:18px;"><a class="btn" href="https://github.com/YOUR_USERNAME/ctf-challenges" target="_blank">View Project</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roles" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Best Fit</span>
+      <h2 class="section-title">Target Roles</h2>
+      <p class="section-desc">Roles that match my background in penetration testing, web application security, Active Directory, SOC monitoring, IT support, automation, and technical reporting.</p>
+      <div class="grid three">
+        <div class="card"><h3>Penetration Tester</h3><p>Web, API, network, and Active Directory testing with clear PoCs, exploitation paths, and remediation-focused reporting.</p><div class="tags"><span class="tag">Web/AppSec</span><span class="tag">Network</span><span class="tag">AD</span></div></div>
+        <div class="card"><h3>Web Application Security Tester</h3><p>Focused on OWASP Top 10, authentication flaws, IDOR, SSRF, SQLi, XSS, business logic issues, APIs, and Burp Suite workflows.</p><div class="tags"><span class="tag">OWASP</span><span class="tag">API Security</span><span class="tag">Burp Suite</span></div></div>
+        <div class="card"><h3>SOC Analyst / Security Analyst</h3><p>Alert triage, log analysis, incident response, Splunk L1/L2, MITRE ATT&CK mapping, and risk prioritization.</p><div class="tags"><span class="tag">Splunk</span><span class="tag">IR</span><span class="tag">MITRE ATT&CK</span></div></div>
+        <div class="card"><h3>Red Team Junior / Associate</h3><p>Adversarial simulation, attack path validation, post-exploitation, privilege escalation, lateral movement, and practical lab experience.</p><div class="tags"><span class="tag">Red Team</span><span class="tag">Attack Paths</span><span class="tag">Post-Exploitation</span></div></div>
+        <div class="card"><h3>Cybersecurity Engineer</h3><p>Security hardening, vulnerability assessment, endpoint security, access control, patching, frameworks, and infrastructure security improvement.</p><div class="tags"><span class="tag">Hardening</span><span class="tag">Vulnerability Mgmt</span><span class="tag">Infrastructure</span></div></div>
+        <div class="card"><h3>IT Support / Security-Focused Support</h3><p>L2 support, Windows, Linux, Windows Server, Microsoft 365, Active Directory, user accounts, permissions, and endpoint support.</p><div class="tags"><span class="tag">L2 Support</span><span class="tag">Microsoft 365</span><span class="tag">Endpoint Support</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Proof of Skill</span>
+      <h2 class="section-title">Certifications</h2>
+      <p class="section-desc">Active certifications, learning paths, and planned certifications from my cybersecurity roadmap.</p>
+      <div class="grid four">
+        <div class="card"><h3>eWPTX</h3><p>Web Application Penetration Tester eXtreme.</p></div>
+        <div class="card"><h3>eCPPT</h3><p>Certified Professional Penetration Tester.</p></div>
+        <div class="card"><h3>eJPT</h3><p>Junior Penetration Tester.</p></div>
+        <div class="card"><h3>CRTA</h3><p>Certified Red Team Analyst.</p></div>
+        <div class="card"><h3>CRTOM</h3><p>Certified Red Team Operator.</p></div>
+        <div class="card"><h3>ISC2 CC</h3><p>Certified in Cybersecurity.</p></div>
+        <div class="card"><h3>HTB CPTS</h3><p>Certified Penetration Testing Specialist.</p></div>
+        <div class="card"><h3>TryHackMe Paths</h3><p>Junior Penetration Tester, Web Fundamentals, Web App Pentesting, Web App Red Teaming, and Red Teaming.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Competition Record</span>
+      <h2 class="section-title">Achievements & CTFs</h2>
+      <p class="section-desc">Competition results and community impact across offensive security and CTF events.</p>
+      <div class="grid two">
+        <div class="achievement"><span>01</span><p>54th place at Black Hat MEA 2024 and 71st at Black Hat MEA 2025 among 2,000+ global participants.</p></div>
+        <div class="achievement"><span>02</span><p>Top 1% global ranking on TryHackMe.</p></div>
+        <div class="achievement"><span>03</span><p>2nd Place | RLCTF Jordan CTF.</p></div>
+        <div class="achievement"><span>04</span><p>QnQSec ranked Top 100 globally on CTFtime.</p></div>
+        <div class="achievement"><span>05</span><p>Participated in inter-university CTFs and Jordanian National Cyber Warriors 2024 & 2025.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Foundation</span>
+      <h2 class="section-title">Education & Training</h2>
+      <div class="grid two">
+        <div class="card"><div class="date">2022 - 2025</div><h3>Bachelor's Degree in Cybersecurity</h3><div class="place">The Hashemite University · Zarqa, Jordan</div><p>Academic foundation in cybersecurity, networking, systems, security principles, and practical technical work.</p></div>
+        <div class="card"><h3>Training & Coursework</h3><p>CEH, CRTP, CompTIA Security+, Cisco CCNA, EC-Council CND / ECIH / CHFI, ISC2 CCSP / CISSP foundations, Fortinet FortiGate, Splunk L1 & L2, SOC and NOC operations.</p><div class="tags"><span class="tag">Planned: OSCP</span><span class="tag">Planned: OSWP</span><span class="tag">Planned: OSWE</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Toolbox</span>
+      <h2 class="section-title">Technical Skills</h2>
+      <p class="section-desc">A practical skill set across offensive security, web and API security, Active Directory, SOC monitoring, infrastructure, networking, automation, frameworks, and reporting.</p>
+      <div class="grid two">
+        <div class="card skill-group"><div class="skill-title">Offensive Security</div><div class="skill-list"><span>Penetration Testing</span><span>Red Team Operations</span><span>Adversarial Simulation</span><span>Post-Exploitation</span><span>Vulnerability Assessment</span></div></div>
+        <div class="card skill-group"><div class="skill-title">Web & API Security</div><div class="skill-list"><span>OWASP Top 10</span><span>SQLi</span><span>XSS</span><span>IDOR</span><span>SSRF</span><span>Authentication Bypass</span><span>API Security</span><span>Business Logic Flaws</span><span>File Upload/RCE</span><span>Burp Suite</span></div></div>
+        <div class="card skill-group"><div class="skill-title">Active Directory & Attack Techniques</div><div class="skill-list"><span>Active Directory Security</span><span>Kerberoasting</span><span>NTLM</span><span>Kerberos</span><span>Lateral Movement</span><span>Privilege Escalation</span><span>Pivoting</span></div></div>
+        <div class="card skill-group"><div class="skill-title">SOC & Security Monitoring</div><div class="skill-list"><span>Alert Triage</span><span>Incident Response</span><span>Splunk L1/L2</span><span>MITRE ATT&CK</span><span>Log Analysis</span><span>Risk Prioritization</span></div></div>
+        <div class="card skill-group"><div class="skill-title">IT Support & Infrastructure</div><div class="skill-list"><span>Windows</span><span>Linux</span><span>Windows Server</span><span>Microsoft 365</span><span>Active Directory</span><span>User Accounts</span><span>Permissions</span><span>Patch Management</span><span>Endpoint Support</span></div></div>
+        <div class="card skill-group"><div class="skill-title">Networking</div><div class="skill-list"><span>TCP/IP</span><span>LAN/WAN</span><span>DNS</span><span>DHCP</span><span>Firewall Configuration</span><span>IDS/IPS</span><span>Network Troubleshooting</span><span>Network Penetration Testing</span></div></div>
+        <div class="card skill-group"><div class="skill-title">Scripting & Automation</div><div class="skill-list"><span>Python</span><span>Bash</span><span>PowerShell</span><span>JavaScript</span><span>Java</span><span>C++</span></div></div>
+        <div class="card skill-group"><div class="skill-title">Frameworks & Standards</div><div class="skill-list"><span>NIST CSF</span><span>ISO 27001</span><span>MITRE ATT&CK</span></div></div>
+        <div class="card skill-group"><div class="skill-title">Reporting</div><div class="skill-list"><span>Technical Report Writing</span><span>PoC Documentation</span><span>Remediation Guidance</span><span>Executive Summaries</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="languages" class="reveal">
+    <div class="container">
+      <span class="section-kicker">Communication</span>
+      <h2 class="section-title">Languages</h2>
+      <div class="grid two">
+        <div class="card"><h3>Arabic</h3><p>Native proficiency.</p></div>
+        <div class="card"><h3>English</h3><p>C2 proficient.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="reveal">
+    <div class="container">
+      <div class="contact-box">
+        <h2>Let’s Build Secure Systems</h2>
+        <p>Open to cybersecurity opportunities, penetration testing projects, CTF collaboration, and security research.</p>
+        <div class="buttons" style="justify-content:center;">
+          <a class="btn primary" href="mailto:baraaalsayyed99@gmail.com">baraaalsayyed99@gmail.com</a>
+          <a class="btn" href="tel:+962796826772">+962 796 826 772</a>
+          <a class="btn" href="https://github.com/YOUR_USERNAME" target="_blank">GitHub</a>
+          <a class="btn" href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer><div class="container">© 2026 Albara Alsayyed · Penetration Testing · Web/AppSec · Active Directory · SOC · Security Automation</div></footer>
+
+  <script>
+    const progressBar = document.getElementById("scroll-progress");
+    window.addEventListener("scroll", () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      progressBar.style.width = `${progress}%`;
+    });
+
+    const visitKey = "albara-portfolio-local-visits";
+    const previousVisits = Number(localStorage.getItem(visitKey) || "0");
+    const currentVisits = previousVisits + 1;
+    localStorage.setItem(visitKey, String(currentVisits));
+    document.getElementById("visit-count").textContent = String(currentVisits).padStart(4, "0");
+
+    document.querySelectorAll(".panel, .card, .achievement, .contact-box").forEach((item) => {
+      item.addEventListener("mousemove", (event) => {
+        const rect = item.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const rotateY = ((x / rect.width) - 0.5) * 10;
+        const rotateX = ((y / rect.height) - 0.5) * -10;
+        item.style.transform = `translateY(-10px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+      });
+      item.addEventListener("mouseleave", () => { item.style.transform = ""; });
+    });
+  </script>
+</body>
+</html>
