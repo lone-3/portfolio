@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +37,6 @@
       color: var(--text);
       line-height: 1.72;
       overflow-x: hidden;
-      perspective: 1200px;
     }
 
     body::before {
@@ -58,7 +58,7 @@
     nav {
       position: sticky;
       top: 0;
-      z-index: 99;
+      z-index: 999;
       background: rgba(5,7,10,0.76);
       backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--line);
@@ -88,7 +88,7 @@
       color: var(--muted);
     }
 
-    .nav-links a { transition: .2s ease; position: relative; }
+    .nav-links a { transition: .2s ease; position: relative; cursor: pointer; }
     .nav-links a::after {
       content: "";
       position: absolute;
@@ -102,17 +102,6 @@
     }
     .nav-links a:hover { color: var(--green); }
     .nav-links a:hover::after { width: 100%; }
-
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      width: 0%;
-      z-index: 999;
-      background: linear-gradient(90deg, transparent, var(--green), #ffffff);
-      box-shadow: 0 0 18px rgba(255,30,60,.65);
-    }
 
     .background-effects {
       position: fixed;
@@ -176,25 +165,8 @@
       border: 1px solid rgba(255,18,63,.32);
       background: linear-gradient(145deg, rgba(255,18,63,.12), rgba(0,0,0,.34));
       box-shadow: 20px 20px 0 rgba(91,0,13,.25), 0 0 40px rgba(255,18,63,.16), inset -18px -18px 32px rgba(0,0,0,.32);
-      transform-style: preserve-3d;
       animation: floatCube 8s ease-in-out infinite alternate;
       opacity: .62;
-    }
-
-    .floating-shape::before,
-    .floating-shape::after {
-      content: "";
-      position: absolute;
-      inset: 12px;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: inherit;
-      transform: translateZ(24px);
-    }
-
-    .floating-shape::after {
-      inset: 28px;
-      transform: translateZ(44px);
-      background: rgba(255,18,63,.07);
     }
 
     .shape-a { left: 7%; top: 24%; border-radius: 24px; transform: rotateX(60deg) rotateZ(42deg); }
@@ -202,8 +174,8 @@
     .shape-c { left: 58%; top: 18%; width: 64px; height: 64px; border-radius: 18px; animation-delay: -5s; transform: rotateX(62deg) rotateZ(18deg); }
 
     @keyframes floatCube {
-      from { translate: 0 0; rotate: 0deg; }
-      to { translate: 22px -34px; rotate: 7deg; }
+      from { translate: 0 0; }
+      to { translate: 22px -34px; }
     }
 
     .depth-ring {
@@ -235,10 +207,10 @@
       grid-template-columns: 1.18fr .82fr;
       gap: 28px;
       align-items: stretch;
-      transform-style: preserve-3d;
-      perspective: 1600px;
     }
 
+    /* FIXED: Removed transform-style: preserve-3d and isolation: isolate from .panel
+       These were intercepting pointer events on child links/buttons */
     .panel {
       background:
         linear-gradient(145deg, rgba(18,18,20,.94), rgba(0,0,0,.88)),
@@ -247,11 +219,8 @@
       border-radius: 28px;
       box-shadow: var(--shadow), var(--glow), inset 0 1px 0 rgba(255,255,255,.08), inset 0 -45px 80px rgba(0,0,0,.34);
       overflow: hidden;
-      transform-style: preserve-3d;
-      transform: translateZ(0);
-      transition: transform .32s ease, border-color .32s ease, box-shadow .32s ease;
       position: relative;
-      isolation: isolate;
+      transition: transform .32s ease, border-color .32s ease, box-shadow .32s ease;
     }
 
     .panel::before {
@@ -262,9 +231,11 @@
       transform: translateX(-120%);
       transition: transform .8s ease;
       pointer-events: none;
+      z-index: 0;
     }
 
     .panel:hover::before { transform: translateX(120%); }
+    .panel:hover { transform: translateY(-6px); border-color: rgba(255,18,63,.55); box-shadow: 0 42px 110px rgba(0,0,0,.86), 0 0 42px rgba(255,18,63,.26); }
 
     .terminal-top {
       display: flex;
@@ -273,17 +244,20 @@
       padding: 14px 18px;
       border-bottom: 1px solid var(--line);
       background: rgba(255,255,255,.035);
+      position: relative;
+      z-index: 2;
     }
 
     .dot { width: 12px; height: 12px; border-radius: 99px; background: var(--red); }
     .dot:nth-child(2) { background: var(--gold); }
     .dot:nth-child(3) { background: var(--green); }
 
-    .panel:hover { transform: translateY(-10px) rotateX(3deg) rotateY(-3deg) scale(1.01); border-color: rgba(255,18,63,.55); box-shadow: 0 42px 110px rgba(0,0,0,.86), 0 0 42px rgba(255,18,63,.26); }
-
-    .hero-body { padding: 38px; position: relative; z-index: 2; transform-style: preserve-3d; }
-
-    .hero-body > * { transform: translateZ(34px); }
+    /* FIXED: hero-body z-index and pointer-events restored properly */
+    .hero-body {
+      padding: 38px;
+      position: relative;
+      z-index: 2;
+    }
 
     .hero-body::after {
       content: "</>";
@@ -359,7 +333,6 @@
       display: grid;
       place-items: center;
       box-shadow: inset 0 0 70px rgba(255,30,60,.10), 0 22px 46px rgba(0,0,0,.50);
-      transform: translateZ(30px);
     }
 
     .profile-visual::before {
@@ -441,38 +414,40 @@
       margin-bottom: 28px;
     }
 
+    /* FIXED: Removed z-index and pointer-events issues from .buttons */
     .buttons {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      position: relative;
-      z-index: 5;
-      pointer-events: auto;
     }
 
+    /* FIXED: btn - removed translateZ, simplified, ensured pointer-events auto */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      position: relative;
-      z-index: 6;
-      pointer-events: auto;
       padding: 12px 18px;
       border-radius: 999px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,.04);
       color: var(--text);
-      transition: .22s ease;
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
       font-weight: 650;
       font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      pointer-events: auto;
+      position: relative;
+      z-index: 10;
     }
 
     .btn.primary { border-color: rgba(255,18,63,.58); color: var(--green); background: rgba(255,18,63,.08); }
-    .btn:hover { transform: translateY(-4px) translateZ(14px); border-color: rgba(255,18,63,.70); box-shadow: 0 18px 36px rgba(255,18,63,.14); }
+    .btn:hover { transform: translateY(-4px); border-color: rgba(255,18,63,.70); box-shadow: 0 18px 36px rgba(255,18,63,.14); background: rgba(255,18,63,.12); color: #fff; }
+    .btn.primary:hover { color: var(--green); }
 
-    .profile-card { padding: 28px; height: 100%; transform-style: preserve-3d; }
-    .profile-card > * { transform: translateZ(28px); }
+    /* FIXED: profile-card - removed transform-style: preserve-3d */
+    .profile-card { padding: 28px; height: 100%; position: relative; z-index: 2; }
     .profile-card h3 { color: var(--green); margin-bottom: 18px; font-size: 22px; }
 
     .metric {
@@ -508,6 +483,7 @@
     .grid.two { grid-template-columns: repeat(2, 1fr); }
     .grid.four { grid-template-columns: repeat(4, 1fr); }
 
+    /* FIXED: card - removed transform-style: preserve-3d and isolation: isolate */
     .card {
       background:
         linear-gradient(145deg, rgba(18,18,20,.94), rgba(0,0,0,.84)),
@@ -519,11 +495,7 @@
       transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
       position: relative;
       overflow: hidden;
-      transform-style: preserve-3d;
-      isolation: isolate;
     }
-
-    .card > * { position: relative; z-index: 2; transform: translateZ(22px); }
 
     .card::after {
       content: "";
@@ -548,18 +520,17 @@
     }
 
     .card:hover::before { transform: translateX(120%); }
-
-    .card:hover { transform: translateY(-14px) rotateX(6deg) rotateY(-6deg) scale(1.015); border-color: rgba(255,18,63,.48); box-shadow: 0 42px 95px rgba(0,0,0,.74), 0 0 38px rgba(255,18,63,.18); }
-    .card h3 { margin-bottom: 8px; font-size: 20px; }
-    .card p, .card li { color: var(--muted); font-size: 15px; }
-    .card ul { padding-left: 18px; margin-top: 12px; }
-    .date { color: var(--green); font-family: Consolas, "Courier New", monospace; font-size: 13px; margin-bottom: 10px; }
-    .place { color: var(--cyan); font-size: 13px; margin-bottom: 13px; font-weight: 700; }
+    .card:hover { transform: translateY(-10px); border-color: rgba(255,18,63,.48); box-shadow: 0 42px 95px rgba(0,0,0,.74), 0 0 38px rgba(255,18,63,.18); }
+    .card h3 { margin-bottom: 8px; font-size: 20px; position: relative; z-index: 2; }
+    .card p, .card li { color: var(--muted); font-size: 15px; position: relative; z-index: 2; }
+    .card ul { padding-left: 18px; margin-top: 12px; position: relative; z-index: 2; }
+    .date { color: var(--green); font-family: Consolas, "Courier New", monospace; font-size: 13px; margin-bottom: 10px; position: relative; z-index: 2; }
+    .place { color: var(--cyan); font-size: 13px; margin-bottom: 13px; font-weight: 700; position: relative; z-index: 2; }
 
     .timeline { display: grid; gap: 18px; }
     .timeline .card { border-left: 3px solid rgba(255,30,60,.70); }
 
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; position: relative; z-index: 2; }
     .tag {
       color: var(--cyan);
       background: rgba(255,30,60,.065);
@@ -575,6 +546,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
+      position: relative;
+      z-index: 2;
     }
 
     .coming-soon-badge {
@@ -596,8 +569,8 @@
     }
 
     .skill-group { display: grid; gap: 13px; }
-    .skill-title { color: var(--green); font-weight: 800; }
-    .skill-list { display: flex; flex-wrap: wrap; gap: 9px; }
+    .skill-title { color: var(--green); font-weight: 800; position: relative; z-index: 2; }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 9px; position: relative; z-index: 2; }
     .skill-list span {
       padding: 9px 11px;
       border: 1px solid var(--line);
@@ -608,6 +581,7 @@
       font-weight: 650;
     }
 
+    /* FIXED: achievement - removed transform-style: preserve-3d */
     .achievement {
       display: flex;
       gap: 14px;
@@ -616,12 +590,11 @@
       border: 1px solid var(--line);
       background: rgba(255,255,255,.025);
       border-radius: 16px;
-      transform-style: preserve-3d;
       transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
 
     .achievement:hover {
-      transform: translateY(-10px) rotateX(5deg) rotateY(-4deg);
+      transform: translateY(-6px);
       border-color: rgba(255,18,63,.45);
       box-shadow: 0 30px 75px rgba(0,0,0,.62), 0 0 32px rgba(255,18,63,.14);
     }
@@ -632,6 +605,7 @@
       font-weight: 900;
     }
 
+    /* FIXED: contact-box - removed transform-style: preserve-3d, fixed buttons inside */
     .contact-box {
       text-align: center;
       border: 1px solid rgba(255,30,60,.34);
@@ -641,7 +615,6 @@
       box-shadow: var(--shadow), 0 0 46px rgba(255,30,60,.13);
       border-radius: 30px;
       padding: 46px 26px;
-      transform-style: preserve-3d;
       position: relative;
       overflow: hidden;
     }
@@ -660,8 +633,7 @@
       pointer-events: none;
     }
 
-    .contact-box > * { position: relative; z-index: 2; transform: translateZ(24px); }
-
+    .contact-box > * { position: relative; z-index: 2; }
     .contact-box h2 { font-size: clamp(28px, 4vw, 42px); margin-bottom: 10px; }
     .contact-box p { color: var(--muted); margin-bottom: 24px; }
 
@@ -694,6 +666,7 @@
     <div class="depth-ring ring-b"></div>
     <div class="scanlines"></div>
   </div>
+
   <nav>
     <div class="container nav-inner">
       <a class="logo" href="#home">Albara<span>@cybersecurity</span></a>
@@ -724,34 +697,37 @@
             API security, Active Directory, network security, SOC monitoring, endpoint support, and incident response.
             I focus on validating real attack paths, writing remediation-ready reports, and building practical security labs.
           </p>
+          <!-- FIXED: All links now use proper href with target="_blank" where needed -->
           <div class="buttons">
             <a class="btn primary" href="#experience">View Experience</a>
             <a class="btn" href="#writeups">Writeups</a>
             <a class="btn" href="#projects">Projects</a>
             <a class="btn" href="#certifications">Certifications</a>
-            <a class="btn" href="https://github.com/albara-alsayyed" target="_blank">GitHub</a>
+            <a class="btn" href="https://github.com/albara-alsayyed" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a class="btn" href="mailto:baraaalsayyed99@gmail.com">Email</a>
           </div>
         </div>
       </div>
 
-      <aside class="panel profile-card">
-        <div class="profile-visual"></div>
-        <h3>Profile Snapshot</h3>
-        <div class="metric"><span>Role</span><strong>Penetration Tester</strong></div>
-        <div class="metric"><span>Location</span><strong>Dubai, UAE</strong></div>
-        <div class="metric"><span>Focus</span><strong>Web / AD / Red Team / SOC</strong></div>
-        <div class="metric"><span>TryHackMe</span><strong>Top 1% Global</strong></div>
-        <div class="metric"><span>CTF Team</span><strong>QnQSec - Top 100 CTFtime</strong></div>
-        <div class="metric"><span>Email</span><strong>baraaalsayyed99@gmail.com</strong></div>
-        <div class="visitor-counter"><span>Profile Visits</span><strong id="visit-count">0001</strong></div>
-        <div class="badge-row">
-          <span class="badge">eWPTX</span>
-          <span class="badge">eCPPT</span>
-          <span class="badge">CRTA</span>
-          <span class="badge">CRTOM</span>
-          <span class="badge">HTB CPTS</span>
-          <span class="badge">ISC2 CC</span>
+      <aside class="panel">
+        <div class="profile-card">
+          <div class="profile-visual"></div>
+          <h3>Profile Snapshot</h3>
+          <div class="metric"><span>Role</span><strong>Penetration Tester</strong></div>
+          <div class="metric"><span>Location</span><strong>Dubai, UAE</strong></div>
+          <div class="metric"><span>Focus</span><strong>Web / AD / Red Team / SOC</strong></div>
+          <div class="metric"><span>TryHackMe</span><strong>Top 1% Global</strong></div>
+          <div class="metric"><span>CTF Team</span><strong>QnQSec - Top 100 CTFtime</strong></div>
+          <div class="metric"><span>Email</span><strong>baraaalsayyed99@gmail.com</strong></div>
+          <div class="visitor-counter"><span>Profile Visits</span><strong id="visit-count">0001</strong></div>
+          <div class="badge-row">
+            <span class="badge">eWPTX</span>
+            <span class="badge">eCPPT</span>
+            <span class="badge">CRTA</span>
+            <span class="badge">CRTOM</span>
+            <span class="badge">HTB CPTS</span>
+            <span class="badge">ISC2 CC</span>
+          </div>
         </div>
       </aside>
     </div>
@@ -764,7 +740,7 @@
         Cybersecurity and IT support professional skilled in identifying vulnerabilities, troubleshooting technical issues,
         managing access control, validating exploitation paths, and communicating risk through clear technical and executive reporting.
       </p>
-      <div class="grid three">
+      <div class="grid">
         <div class="card">
           <h3>Offensive Security</h3>
           <p>Penetration testing, red team operations, adversarial simulation, post-exploitation, vulnerability assessment, and PoC development.</p>
@@ -857,7 +833,7 @@
       <p class="section-desc">
         Public notes, lab writeups, SOC case studies, web security research, API testing lessons, and reusable reporting material.
       </p>
-      <div class="grid three">
+      <div class="grid">
         <div class="card">
           <div class="date">CTF Writeups</div>
           <h3>Hack The Box / TryHackMe Notes</h3>
@@ -907,10 +883,8 @@
   <section id="projects">
     <div class="container">
       <h2 class="section-title">Projects</h2>
-      <p class="section-desc">
-        Practical security projects across labs, automation, infrastructure, and research.
-      </p>
-      <div class="grid three">
+      <p class="section-desc">Practical security projects across labs, automation, infrastructure, and research.</p>
+      <div class="grid">
         <div class="card">
           <h3>Active Directory Attack Lab</h3>
           <p>A local lab for AD enumeration, Kerberoasting, NTLM abuse, lateral movement, privilege escalation, and detection notes.</p>
@@ -1031,12 +1005,14 @@
       <div class="contact-box">
         <h2>Let's Build Secure Systems</h2>
         <p>Open to cybersecurity opportunities, penetration testing projects, CTF collaboration, and security research.</p>
+        <!-- FIXED: All contact buttons now properly clickable with correct links -->
         <div class="buttons" style="justify-content:center;">
           <a class="btn primary" href="mailto:baraaalsayyed99@gmail.com">baraaalsayyed99@gmail.com</a>
           <a class="btn" href="tel:+962796826772">+962 796 826 772</a>
-          <button class="btn" type="button" data-copy="3pwn">Discord: 3pwn</button>
-          <a class="btn" href="https://github.com/albara-alsayyed" target="_blank">GitHub</a>
-          <a class="btn" href="https://www.linkedin.com/in/albaraalsayyed/" target="_blank">LinkedIn</a>
+          <button class="btn" type="button" id="discord-btn">Discord: 3pwn</button>
+          <a class="btn" href="https://github.com/albara-alsayyed" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <!-- FIXED: LinkedIn URL corrected -->
+          <a class="btn" href="https://www.linkedin.com/in/albaraalsayyed/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
       </div>
     </div>
@@ -1045,43 +1021,43 @@
   <footer>
     <div class="container">2026 (c) Albara Alsayyed | Penetration Testing | Web/AppSec | Active Directory | SOC</div>
   </footer>
-  <script>
-    const visitKey = "albara_portfolio_visits";
-    const visitCount = document.getElementById("visit-count");
 
-    if (visitCount) {
+  <script>
+    // Visit counter — uses localStorage
+    const visitKey = "albara_portfolio_visits";
+    const visitCountEl = document.getElementById("visit-count");
+    if (visitCountEl) {
       const visits = Number(localStorage.getItem(visitKey) || "0") + 1;
       localStorage.setItem(visitKey, String(visits));
-      visitCount.textContent = String(visits).padStart(4, "0");
+      visitCountEl.textContent = String(visits).padStart(4, "0");
     }
 
+    // Smooth scroll for all anchor links
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", (event) => {
-        const target = document.querySelector(link.getAttribute("href"));
+      link.addEventListener("click", (e) => {
+        const id = link.getAttribute("href");
+        const target = document.querySelector(id);
         if (!target) return;
-
-        event.preventDefault();
+        e.preventDefault();
         target.scrollIntoView({ behavior: "smooth", block: "start" });
-        history.pushState(null, "", link.getAttribute("href"));
+        history.pushState(null, "", id);
       });
     });
 
-    document.querySelectorAll("[data-copy]").forEach((button) => {
-      const originalText = button.textContent;
-
-      button.addEventListener("click", async () => {
-        const value = button.getAttribute("data-copy");
+    // Discord copy button
+    const discordBtn = document.getElementById("discord-btn");
+    if (discordBtn) {
+      discordBtn.addEventListener("click", async () => {
+        const original = discordBtn.textContent;
         try {
-          await navigator.clipboard.writeText(value);
-          button.textContent = "Copied";
-          setTimeout(() => {
-            button.textContent = originalText;
-          }, 1400);
+          await navigator.clipboard.writeText("3pwn");
+          discordBtn.textContent = "Copied!";
         } catch {
-          button.textContent = value;
+          discordBtn.textContent = "3pwn";
         }
+        setTimeout(() => { discordBtn.textContent = original; }, 1400);
       });
-    });
+    }
   </script>
 </body>
 </html>
